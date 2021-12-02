@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const db = require("../models/");
+const Workout = require("../models/workout");
 
 // POST new workout route
-router.post("/api/workouts", ({ body }, res) => {
-  db.Workout.create(body)
+router.post("/api/workouts", (req, res) => {
+  Workout.create({})
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -23,5 +23,23 @@ router.get("/api/workouts", (req, res) => {
     });
 });
 
-// PUT route for viewing combined weight from last 7 workouts from stats page
-router.put();
+// GET workout aggregate
+router.get("/api/stats", (req, res) => {
+  Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: { $sum: "$exercises.duration" },
+        totalWeight: { $sum: "$exercises.weight" },
+      },
+    },
+  ])
+    .limit(7)
+    .then((workout) => {
+      res.json(workout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+module.exports = router;
