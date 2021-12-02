@@ -4,8 +4,8 @@ const Workout = require("../models/workout");
 // POST new workout route
 router.post("/api/workouts", (req, res) => {
   Workout.create({})
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -14,16 +14,16 @@ router.post("/api/workouts", (req, res) => {
 
 // GET previous workouts route
 router.get("/api/workouts", (req, res) => {
-  db.Workout.find({})
-    .then((dbWorkout) => {
-      res.json(dbWorkout);
+  Workout.find({})
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
       res.status(400).json(err);
     });
 });
 
-// GET workout aggregate
+// GET workout aggregate for last 7 workouts
 router.get("/api/stats", (req, res) => {
   Workout.aggregate([
     {
