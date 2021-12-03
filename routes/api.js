@@ -2,7 +2,7 @@ const router = require("express").Router();
 const db = require("../models/");
 
 // POST new workout route
-router.post("/api/workouts", ({ body }, res) => {
+router.post("/workouts", ({ body }, res) => {
   db.Workout.create({})
     .then((dbworkout) => {
       res.json(dbworkout);
@@ -13,7 +13,7 @@ router.post("/api/workouts", ({ body }, res) => {
 });
 
 // GET previous workouts route
-router.get("/api/workouts", (req, res) => {
+router.get("/workouts", (req, res) => {
   db.Workout.find({})
     .then((dbWorkout) => {
       res.json(dbWorkout);
@@ -24,7 +24,7 @@ router.get("/api/workouts", (req, res) => {
 });
 
 // GET workout route for last 7 workouts
-router.get("/api/workouts/range", (req, res) => {
+router.get("/workouts/range", (req, res) => {
   Workout.aggregate([
     {
       $addFields: {
