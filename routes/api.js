@@ -1,6 +1,17 @@
 const router = require("express").Router();
 const Workout = require("../models/");
 
+// POST new workout route
+router.post("/api/workouts", ({ body }, res) => {
+  db.Workout.create({})
+    .then((dbworkout) => {
+      res.json(dbworkout);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 // GET previous workouts route
 router.get("/api/workouts", (req, res) => {
   db.Workout.find({})
@@ -12,19 +23,8 @@ router.get("/api/workouts", (req, res) => {
     });
 });
 
-// POST new workout route
-router.post("/api/workouts", ({ body }, res) => {
-  db.Workout.create(body)
-    .then((dbworkout) => {
-      res.json(dbworkout);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
-
-// GET workout aggregate for last 7 workouts
-router.get("/api/stats", (req, res) => {
+// GET workout route for last 7 workouts
+router.get("/api/workouts/range", (req, res) => {
   Workout.aggregate([
     {
       $addFields: {
