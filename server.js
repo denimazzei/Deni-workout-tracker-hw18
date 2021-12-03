@@ -25,6 +25,8 @@ mongoose.connect(
   }
 );
 
+app.use(require("./routes"));
+
 app.listen(PORT, function () {
   console.log(`Server listening on: http://localhost:${PORT}`);
 });
