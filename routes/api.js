@@ -3,9 +3,9 @@ const db = require("../models/");
 
 // POST new workout route
 router.post("/workouts", ({ body }, res) => {
-  db.Workout.create({})
-    .then((dbworkout) => {
-      res.json(dbworkout);
+  db.Workout.create(body)
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -16,6 +16,7 @@ router.post("/workouts", ({ body }, res) => {
 router.get("/workouts", (req, res) => {
   db.Workout.find({})
     .then((dbWorkout) => {
+      console.log(dbWorkout);
       res.json(dbWorkout);
     })
     .catch((err) => {
@@ -36,6 +37,20 @@ router.get("/workouts/range", (req, res) => {
     .limit(7)
     .then((workout) => {
       res.json(workout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+//PUT route for workout update
+router.put("/workouts/:id", (req, res) => {
+  db.WorkoutupdateOne(
+    { _id: req.params.id },
+    { $push: { exercises: req.body } }
+  )
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
     })
     .catch((err) => {
       res.json(err);
